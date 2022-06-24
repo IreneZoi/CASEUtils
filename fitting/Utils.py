@@ -324,7 +324,12 @@ def fill_hist(v, h, event_num = None):
 def load_h5_sb(h_file, hist, correctStats=False, sb1_edge = -1., sb2_edge = -1.):
     event_num = None
     with h5py.File(h_file, "r") as f:
-        mjj = np.array(f['mjj'][()])
+        try:
+            mjj = np.array(f['mjj'][()])
+        except:
+            n_events = 500000000
+            mjj = f['eventFeatures'][:n_events,0]
+
         if(correctStats):
             event_num = f['event_num'][()]
 
@@ -349,7 +354,11 @@ def load_h5_sig(h_file, hist, sig_mjj, requireWindow = False, correctStats =Fals
         try:
             mjj = f['jet_kinematics'][:, 0]
         except:
-            mjj = f['mjj'][()]
+            try:
+                mjj = f['mjj'][()]
+            except:
+                n_events = 500000000
+                mjj = f['eventFeatures'][:n_events,0]
 
         num_evts = mjj.shape[0]
         if(mixed):
@@ -373,8 +382,12 @@ def load_h5_sig(h_file, hist, sig_mjj, requireWindow = False, correctStats =Fals
 
 def check_rough_sig(h_file, m_low, m_high):
     with h5py.File(h_file, "r") as f:
-        mjj = f['mjj'][()]
-        is_sig = f['truth_label'][()]
+        try:
+            mjj = f['mjj'][()]
+        except:
+            n_events = 500000000
+            mjj = f['eventFeatures'][:n_events,0]
+        is_sig = 0 #f['truth_label'][()]
 
     in_window = (mjj > m_low) & (mjj < m_high)
     sig_events = is_sig > 0.9
