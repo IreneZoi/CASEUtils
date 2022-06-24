@@ -26,6 +26,14 @@ in the range of +/- 20\% of the signal mass (this can be changed with an option)
 By default it uses a single crystal ball with a Gaussian core but we have been
 generally using the double crystall ball fit (`--dcb-model` option). 
 
+Example command for creating signal shapes:
+
+        python fit_signalshapes.py --dcb-model -M 2000 -i /eos/user/i/izoi/SWAN_projects/CASE/QR/run_50005/sig_RSGravitonToGluonGluon_kMpl01_M_2000Reco/RSGravitonToGluonGluon_kMpl01_M_2000Reco.h5
+
+Example command for fitting:
+
+        python dijetfit.py -s plots/sig_fit_2000.root -M 2000 --dcb-model -i /eos/user/i/izoi/SWAN_projects/CASE/QR/run_50005/sig_WkkToWRadionToWWW_M3000_Mr170Reco_1e8/sig_MCOrig_QR_Reco.h5
+
 `interpolation.py` is used to interpolate signal shapes to different dijet
 masses.
 
